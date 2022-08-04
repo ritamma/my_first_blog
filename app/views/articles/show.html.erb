@@ -1,0 +1,57 @@
+
+<p class="fw-bold fs-4 p-3 px-4 text-center text-black"><%= @article.title %></p>
+
+
+<div class="text-center">
+  <%= image_tag @article.header_image, size:'600x300' %>
+</div>
+
+<p class="text-center p-3 text-muted "><%= raw @article.body %></p>
+<p class="text-left p-3 text-muted">Article author: <%= @article.user.email %></p>
+<p class="text-primary px-3">Users who liked:</p>
+<% @article.likes.each do |l| %>
+  <p class="d-inline text-muted px-4"><%= l.user.email%></p>
+<% end %>
+
+
+<div class="fw-bold text-end p-2 px-1 text-muted">
+  <p class="p-2"><%= @article.likes.count %><%= (@article.likes.count)==1 ? " LIKE" : " LIKES" %></p>
+
+
+
+
+  <% pre_like = @article.likes.find{|like| like.user_id==current_user.id} %>
+
+<% if pre_like %>
+    <p><%= button_to "Unlike", article_like_path(@article, pre_like), method: :delete, :class=>"btn btn-outline-danger btn-sm" %></p>
+  <% else %>
+    <p><%= button_to "Like", article_likes_path(@article), method: :article, :class=>"btn btn-outline-danger" %></p>
+  <% end %>
+</div>
+
+
+<% if current_user==@article.user %>
+<ul>
+  <div class="text-center p-4 bg-light ">
+  <a><%= link_to "Edit", edit_article_path(@article), :class=>"btn btn-outline-primary btn-sm" %></a>
+  <a><%= button_to "Destroy", article_path(@article), :class=>"btn btn-outline-primary btn-sm",method: :delete, data: {
+    turbo_method: :delete,
+    turbo_confirm: "Are you sure?"
+  } %></a>
+  </div>
+</ul>
+  <% end %>
+
+<p class="fw-bold fs-5 p-2 px-2 text-left text-primary">Comments:</p>
+<p class="ml-2"><%= render @article.comments %></p>
+
+<p class="fw-bold fs-5 p-2 px-2 text-center text-dark">Add a comment:</p>
+<%= render 'comments/form' %>
+
+<li><%= link_to "Back", :back %></li>
+
+
+
+
+
+

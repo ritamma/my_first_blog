@@ -1,0 +1,48 @@
+<!--<h1>Articles</h1>-->
+<!--<%# if user_signed_in? %>Logged in as <%#= current_user.email %>-->
+<%#= link_to 'Edit profile', edit_user_registration_path %>
+<%#= link_to "Logout", destroy_user_session_path, method: :delete %>
+<%# else %>
+<%#= link_to "Sign up", new_user_registration_path %>
+<%#= link_to "Login", new_user_session_path %>
+<%# end %>
+
+<%# if current_user %>
+  <%#= image_tag(current_user.avatar.url(:thumb)) %>
+<%# end %>
+<%#= javascript_include_tag :ckeditor %>
+<!--<img src="current_user.avatar.url(:thumb)"  width="100" height="100">-->
+<div class="row text-center">
+  <div class="col-8 text-left" >
+    <h4><p class="fw-bold fs-4 p-3 px-4 text-center text-muted">Articles:</p></h4>
+    <ul>
+      <% @articles.each do |article| %>
+
+        <% unless article.archived? %>
+          <div class="d-inline text-center p-4 bg-light ">
+            <%= link_to article.title, article %>
+          </div>
+        <% end %>
+      <% end %>
+    </ul>
+
+    <p class="fs-6 fw-bold p-3"> <%= link_to "New Article", new_article_path %></p>
+
+  </div>
+  <div class="col-4 p-4 text-center">
+    <img class="rounded float-right"><%= image_tag(current_user.avatar.url(:medium)) %></img>
+    <p class="fs-5 text-center fst-italic text-muted mt-0 p-2 ml-5" >Hello, <%= current_user.email %></p>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
